@@ -4,3 +4,7 @@ uvicorn
 template
 jinja2
 aiofiles
+
+sqlalchemy
+
+python-dotenv

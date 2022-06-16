@@ -130,3 +130,4 @@ dmypy.json
 
 # Pycharm
 .idea/
+/backend/sql_app.db
