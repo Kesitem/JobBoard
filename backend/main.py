@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from core.config import settings
-from apis.general_pages.route_homepage import general_pages_router
+from apis.base import api_router
 from db.session import engine
 from db.base import Base
 
 
 def include_router(application):
-    application.include_router(general_pages_router)
+    application.include_router(api_router)
 
 
 def configure_static(application):
