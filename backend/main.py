@@ -1,9 +1,9 @@
+from apis.base import api_router
+from core.config import settings
+from db.base import Base
+from db.session import engine
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from core.config import settings
-from apis.base import api_router
-from db.session import engine
-from db.base import Base
 
 
 def include_router(application):

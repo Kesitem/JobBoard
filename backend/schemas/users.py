@@ -1,5 +1,5 @@
-from typing import Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
+from pydantic import EmailStr
 
 
 # properties required during user creation
@@ -15,5 +15,5 @@ class ShowUser(BaseModel):
     is_active: bool
 
     # tells pydantic to convert even non dict obj to json
-    class Config():
+    class Config:
         orm_mode = True
