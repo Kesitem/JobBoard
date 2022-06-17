@@ -1,4 +1,7 @@
+from typing import List
+
 from db.repository.jobs import create_new_job
+from db.repository.jobs import list_jobs
 from db.repository.jobs import retreive_job
 from db.session import get_db
 from fastapi import APIRouter
@@ -30,3 +33,9 @@ def read_job(id: int, db: Session = Depends(get_db)):
             detail=f"Job with this id {id} does not exist",
         )
     return job
+
+
+@router.get("/all", response_model=List[ShowJob])
+def read_jobs(db: Session = Depends(get_db)):
+    jobs = list_jobs(db=db)
+    return jobs
