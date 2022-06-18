@@ -22,3 +22,6 @@ requests
 
 # pre-commit
 pre-commit
+
+# jwt tokens
+python-jose
