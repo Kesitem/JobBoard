@@ -25,3 +25,6 @@ pre-commit
 
 # jwt tokens
 python-jose
+
+# accessing form data
+python-multipart
