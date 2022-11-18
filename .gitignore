@@ -129,6 +129,7 @@ dmypy.json
 .pyre/
 
 # Pycharm
+.idea
 .idea/
 /backend/sql_app.db
 /backend/test_db.db
