@@ -1,4 +1,5 @@
 from db.repository.jobs import list_jobs
+from db.repository.jobs import retreive_job
 from db.session import get_db
 from fastapi import APIRouter
 from fastapi import Depends
@@ -16,3 +17,10 @@ async def home(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse(
         "general_pages/homepage.html", {"request": request, "jobs": jobs}
     )
+
+
+@router.get("/jobs/detail/{id}")
+def job_details(id: int, request: Request, db: Session = Depends(get_db)):
+    job = retreive_job(id=id, db=db)
+    print(job.__str__())
+    return templates.TemplateResponse("jobs/detail.html", {"request": request, "job": job})

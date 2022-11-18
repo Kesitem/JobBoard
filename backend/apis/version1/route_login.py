@@ -43,13 +43,13 @@ def login_for_access_token(
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
+
     return {"access_token": access_token, "token_type": "bearer"}
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/token")
 
 
-# new function, It works as a dependency
 def get_current_user_from_token(
     token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
 ):
