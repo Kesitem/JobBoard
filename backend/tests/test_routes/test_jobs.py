@@ -13,7 +13,7 @@ def test_create_job(client, normal_user_token_headers):
         "date_posted": "2022-03-20",
     }
     response = client.post(
-        "/jobs/create-job/", data=json.dumps(data), headers=normal_user_token_headers
+        "/jobs/create-job/", content=json.dumps(data), headers=normal_user_token_headers
     )
     assert response.status_code == 200
     assert response.json()["company"] == "doogle"
@@ -30,7 +30,7 @@ def test_read_job(client, normal_user_token_headers):
         "date_posted": "2022-03-20",
     }
     response = client.post(
-        "/jobs/create-job/", json.dumps(data), headers=normal_user_token_headers
+        "/jobs/create-job/", content=json.dumps(data), headers=normal_user_token_headers
     )
 
     response = client.get("/jobs/get/1/")
@@ -48,10 +48,10 @@ def test_read_jobs(client, normal_user_token_headers):
         "date_posted": "2022-03-20",
     }
     client.post(
-        "/jobs/create-job/", json.dumps(data), headers=normal_user_token_headers
+        "/jobs/create-job/", content=json.dumps(data), headers=normal_user_token_headers
     )
     client.post(
-        "/jobs/create-job/", json.dumps(data), headers=normal_user_token_headers
+        "/jobs/create-job/", content=json.dumps(data), headers=normal_user_token_headers
     )
 
     response = client.get("/jobs/all/")
@@ -70,10 +70,10 @@ def test_update_a_job(client, normal_user_token_headers):
         "date_posted": "2022-03-20",
     }
     client.post(
-        "/jobs/create-job/", json.dumps(data), headers=normal_user_token_headers
+        "/jobs/create-job/", content=json.dumps(data), headers=normal_user_token_headers
     )
     data["title"] = "test new title"
-    response = client.put("/jobs/update/1", json.dumps(data))
+    response = client.put("/jobs/update/1", content=json.dumps(data))
     assert response.json()["msg"] == "Successfully updated data."
 
 
@@ -87,7 +87,7 @@ def test_delete_a_job(client, normal_user_token_headers):
         "date_posted": "2022-03-20",
     }
     client.post(
-        "/jobs/create-job/", json.dumps(data), headers=normal_user_token_headers
+        "/jobs/create-job/", content=json.dumps(data), headers=normal_user_token_headers
     )
     client.delete("/jobs/delete/1", headers=normal_user_token_headers)
     response = client.get("/jobs/get/1/")
