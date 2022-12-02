@@ -6,6 +6,8 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from webapps.base import api_router as web_app_router
 
+import uvicorn
+
 
 def include_router(application):
     application.include_router(api_router)
@@ -29,3 +31,6 @@ def start_application():
 
 
 app = start_application()
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)

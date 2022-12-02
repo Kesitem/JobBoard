@@ -1,10 +1,12 @@
+import sqlite3
+
 from core.hashing import Hasher
 from db.models.users import User
 from schemas.users import UserCreate
 from sqlalchemy.orm import Session
 
 
-def create_new_user(user: UserCreate, db: Session):
+def create_new_user(user: UserCreate, db_session: Session):
     user = User(
         username=user.username,
         email=user.email,
@@ -12,9 +14,10 @@ def create_new_user(user: UserCreate, db: Session):
         is_active=True,
         is_superuser=False,
     )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
+    db_session.add(user)
+    db_session.commit()
+    db_session.refresh(user)
+
     return user
 
 
