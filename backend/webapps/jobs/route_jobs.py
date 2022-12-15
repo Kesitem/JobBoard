@@ -29,7 +29,6 @@ async def home(request: Request, db: Session = Depends(get_db)):
 @router.get("/jobs/detail/{id}")
 def job_details(id: int, request: Request, db: Session = Depends(get_db)):
     job = retreive_job(id=id, db=db)
-    print(job.__str__())
     return templates.TemplateResponse("jobs/details.html", {"request": request, "job": job})
 
 
@@ -55,7 +54,6 @@ async def create_job(request: Request, db: Session = Depends(get_db)):
                 f"/jobs/detail/{job.id}", status_code=status.HTTP_302_FOUND
             )
         except Exception as e:
-            print(e)
             form.__dict__.get("errors").append(
                 "You might not be logged in, In case problem persists please contact us."
             )

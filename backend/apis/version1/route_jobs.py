@@ -71,7 +71,6 @@ def delete_job(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Job with id {id} does not exist",
         )
-    print(job.owner_id, current_user.id, current_user.is_superuser)
     if job.owner_id == current_user.id or current_user.is_superuser:
         delete_job_by_id(id=id, db=db, owner_id=current_user.id)
         return {"detail": "Successfully deleted."}
