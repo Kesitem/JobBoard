@@ -5,9 +5,9 @@ from fastapi import Depends
 from fastapi import HTTPException
 from fastapi import Request
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse, Response
 from sqlalchemy.orm import Session
 from webapps.auth.forms import LoginForm
-
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter(include_in_schema=False)
@@ -33,3 +33,10 @@ async def login(request: Request, db: Session = Depends(get_db)):
             form.__dict__.get("errors").append("Incorrect Email or Password")
             return templates.TemplateResponse("auth/login.html", form.__dict__)
     return templates.TemplateResponse("auth/login.html", form.__dict__)
+
+
+@router.get("/logout")
+def logout(response: Response):
+    response = RedirectResponse("/", status_code=302)
+    response.delete_cookie(key='access_token')
+    return response

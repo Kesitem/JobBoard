@@ -1,4 +1,7 @@
 from typing import Optional
+
+from fastapi.responses import RedirectResponse
+
 from db.repository.jobs import list_jobs
 from db.repository.jobs import retreive_job
 from db.repository.jobs import create_new_job
@@ -15,6 +18,7 @@ from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from fastapi.security.utils import get_authorization_scheme_param
 from webapps.jobs.forms import JobCreateForm
+from webapps.user import get_current_user_info
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter(include_in_schema=False)
@@ -22,9 +26,14 @@ router = APIRouter(include_in_schema=False)
 
 @router.get("/")
 async def home(request: Request, db: Session = Depends(get_db)):
+
+    user_info = get_current_user_info(request, db)
+    if user_info is None:
+        return RedirectResponse(url="/login/")
+
     jobs = list_jobs(db=db)
     return templates.TemplateResponse(
-        "general_pages/homepage.html", {"request": request, "jobs": jobs}
+        "general_pages/homepage.html", {"request": request, "jobs": jobs, "user_info": user_info}
     )
 
 
@@ -36,6 +45,11 @@ def job_details(id: int, request: Request, db: Session = Depends(get_db)):
 
 @router.get("/post-a-job/")
 def create_job(request: Request, db: Session = Depends(get_db)):
+
+    user_info = get_current_user_info(request, db)
+    if user_info is None:
+        return RedirectResponse(url="/")
+
     return templates.TemplateResponse("jobs/create_job.html", {"request": request})
 
 
@@ -73,7 +87,7 @@ def show_jobs_to_delete(request: Request, db: Session = Depends(get_db)):
 
 @router.get("/search/")
 def search(
-    request: Request, db: Session = Depends(get_db), query: Optional[str] = None
+        request: Request, db: Session = Depends(get_db), query: Optional[str] = None
 ):
     jobs = search_job(query, db=db)
     return templates.TemplateResponse(
